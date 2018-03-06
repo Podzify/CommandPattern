@@ -1,13 +1,17 @@
 ﻿using UnityEngine;
 
-public class FireCommand : ICommand {
-
-	public void Execute(Entity entity)
+public class FireCommand : ICommand
+{
+	private IFire FiringEntity { get; set; }
+	
+	public FireCommand(IFire firingEntity) // <-- inject a strongly typed reference to the receiver
 	{
-		Debug.Log("Fire Command executing on Entity: " + entity);
-		if (entity is IFire)
-		{
-			((IFire)entity).Fire();
-		}
+	FiringEntity = firingEntity;
+	}
+	
+	public void Execute()
+	{
+	// Debug.Log(entity.gameObject.name + "(" + entity.GetType() + ") fired.");
+	FiringEntity.Fire();
 	}
 }
