@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class FireCommand : ICommand
 {
@@ -6,12 +7,16 @@ public class FireCommand : ICommand
 	
 	public FireCommand(IFire firingEntity) // <-- inject a strongly typed reference to the receiver
 	{
-	FiringEntity = firingEntity;
+		if (firingEntity == null)
+ 			// throw new ArgumentNullException($"{nameof(firingEntity)} cannot be null"); // Guard clause (in C# 6.0)
+			throw new ArgumentNullException("Firing Entity cannot be null"); // Guard clause (in C# 6.0)
+ 
+		FiringEntity = firingEntity;
 	}
 	
 	public void Execute()
 	{
-	// Debug.Log(entity.gameObject.name + "(" + entity.GetType() + ") fired.");
-	FiringEntity.Fire();
+		// Debug.Log(entity.gameObject.name + "(" + entity.GetType() + ") fired.");
+		FiringEntity.Fire();
 	}
 }
